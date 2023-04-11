@@ -112,7 +112,7 @@ class ApplicationInitializer(
                 // This has to happen on the main thread but we might call `initialize` from tests
                 MapView(context).onCreate(null)
             }
-            OsmDroidInitializer.initialize(userAgentProvider.userAgent)
+            OsmDroidInitializer.initialize(userAgentProvider.getUserAgent(settingsProvider))
         } catch (ignore: Exception) {
             // ignored
         } catch (ignore: Error) {

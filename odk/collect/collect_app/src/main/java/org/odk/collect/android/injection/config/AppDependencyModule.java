@@ -146,6 +146,7 @@ import org.odk.collect.settings.ODKAppSettingsMigrator;
 import org.odk.collect.settings.SettingsProvider;
 import org.odk.collect.settings.importing.ProjectDetailsCreatorImpl;
 import org.odk.collect.settings.importing.SettingsChangeHandler;
+import org.odk.collect.settings.keys.ExtensionKeys;
 import org.odk.collect.settings.keys.MetaKeys;
 import org.odk.collect.settings.keys.ProjectKeys;
 import org.odk.collect.shared.strings.UUIDGenerator;
@@ -186,11 +187,11 @@ public class AppDependencyModule {
 
     @Provides
     @Singleton
-    public OpenRosaHttpInterface provideHttpInterface(MimeTypeMap mimeTypeMap, UserAgentProvider userAgentProvider) {
+    public OpenRosaHttpInterface provideHttpInterface(MimeTypeMap mimeTypeMap, UserAgentProvider userAgentProvider, SettingsProvider settingsProvider) {
         return new OkHttpConnection(
                 new OkHttpOpenRosaServerClientProvider(new OkHttpClient()),
                 new CollectThenSystemContentTypeMapper(mimeTypeMap),
-                userAgentProvider.getUserAgent()
+                userAgentProvider.getUserAgent(settingsProvider)
         );
     }
 
@@ -284,15 +285,17 @@ public class AppDependencyModule {
     }
 
     @Provides
-    public VersionInformation providesVersionInformation() {
-        //TODO pass from apps
-        return new VersionInformation(() -> "1");
+    public VersionInformation providesVersionInformation(SettingsProvider settingsProvider) {
+        return new VersionInformation(() -> settingsProvider.getExtensionSettings().getString(ExtensionKeys.APP_VERSION));
     }
 
     @Provides
-    public FileProvider providesFileProvider(Context context) {
-        //TODO pass from apps
-        return filePath -> getUriForFile(context, ProjectKeys.APP_PROVIDER + ".provider", new File(filePath));
+    public FileProvider providesFileProvider(Context context, SettingsProvider settingsProvider) {
+        return filePath -> getUriForFile(
+                context,
+                settingsProvider.getExtensionSettings().getString(ExtensionKeys.APP_PROVIDER) + ".provider",
+                new File(filePath)
+        );
     }
 
     @Provides
@@ -328,6 +331,7 @@ public class AppDependencyModule {
                 settingsProvider,
                 Defaults.getUnprotected(),
                 Defaults.getProtected(),
+                Defaults.getExtension(),
                 asList(context.getResources().getStringArray(R.array.project_colors)),
                 settingsChangeHandler
         );
@@ -635,8 +639,8 @@ public class AppDependencyModule {
     }
 
     @Provides
-    public MediaUtils providesMediaUtils(IntentLauncher intentLauncher) {
-        return new MediaUtils(intentLauncher, new ContentUriProvider());
+    public MediaUtils providesMediaUtils(IntentLauncher intentLauncher, SettingsProvider settingsProvider) {
+        return new MediaUtils(intentLauncher, new ContentUriProvider(), settingsProvider);
     }
 
     @Provides

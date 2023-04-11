@@ -64,6 +64,7 @@ import org.odk.collect.android.widgets.utilities.WaitingForDataRegistry;
 import org.odk.collect.androidshared.system.IntentLauncherImpl;
 import org.odk.collect.audiorecorder.recording.AudioRecorder;
 import org.odk.collect.permissions.PermissionsProvider;
+import org.odk.collect.settings.SettingsProvider;
 
 /**
  * Convenience class that handles creation of widgets.
@@ -87,6 +88,7 @@ public class WidgetFactory {
     private final FileRequester fileRequester;
     private final StringRequester stringRequester;
     private final FormController formController;
+    private final SettingsProvider settingsProvider;
 
     public WidgetFactory(Activity activity,
                          boolean readOnlyOverride,
@@ -100,7 +102,8 @@ public class WidgetFactory {
                          LifecycleOwner viewLifecycle,
                          FileRequester fileRequester,
                          StringRequester stringRequester,
-                         FormController formController) {
+                         FormController formController,
+                         SettingsProvider settingsProvider) {
         this.activity = activity;
         this.readOnlyOverride = readOnlyOverride;
         this.useExternalRecorder = useExternalRecorder;
@@ -114,6 +117,7 @@ public class WidgetFactory {
         this.fileRequester = fileRequester;
         this.stringRequester = stringRequester;
         this.formController = formController;
+        this.settingsProvider = settingsProvider;
     }
 
     public QuestionWidget createWidgetFromPrompt(FormEntryPrompt prompt, PermissionsProvider permissionsProvider) {
@@ -202,7 +206,7 @@ public class WidgetFactory {
                 if (appearance.equals(Appearances.SIGNATURE)) {
                     questionWidget = new SignatureWidget(activity, questionDetails, questionMediaManager, waitingForDataRegistry, new StoragePathProvider().getTmpImageFilePath());
                 } else if (appearance.contains(Appearances.ANNOTATE)) {
-                    questionWidget = new AnnotateWidget(activity, questionDetails, questionMediaManager, waitingForDataRegistry, new StoragePathProvider().getTmpImageFilePath());
+                    questionWidget = new AnnotateWidget(activity, questionDetails, questionMediaManager, waitingForDataRegistry, new StoragePathProvider().getTmpImageFilePath(),settingsProvider);
                 } else if (appearance.equals(Appearances.DRAW)) {
                     questionWidget = new DrawWidget(activity, questionDetails, questionMediaManager, waitingForDataRegistry, new StoragePathProvider().getTmpImageFilePath());
                 } else if (appearance.startsWith(Appearances.EX)) {

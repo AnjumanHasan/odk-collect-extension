@@ -1,0 +1,68 @@
+{
+  "admin": {
+    "admin_password": false,
+    "admin_pw": "",
+    "edit_saved": true,
+    "send_finalized": true,
+    "view_sent": true,
+    "get_blank": true,
+    "delete_saved": false,
+    "save_mid": true,
+    "jump_to": false,
+    "access_settings": false,
+    "save_as": false,
+    "instance_form_sync": true,
+    "scoped_storage_used": true,
+    "default_to_finalized": true,
+    "delete_after_send": false,
+    "high_resolution": false,
+    "image_size": true,
+    "show_splash_screen": true,
+    "show_map_sdk": true,
+    "show_map_basemap": false,
+    "analytics": false,
+    "import_settings": false,
+    "change_form_metadata": false,
+    "change_language": false,
+    "change_server": false,
+    "change_autosend": false,
+    "change_navigation": false,
+    "change_constraint_behavior": false,
+    "change_font_size": false,
+    "change_app_language": true,
+    "change_protocol_settings": false,
+    "change_app_theme": false,
+    "mark_as_finalized": false
+  },
+  "general": {
+    "protocol": "odk_default",
+    "server_url": "String", //Server URL to upload the submitted ODK forms
+    "navigation": "buttons",
+    "autosend": "wifi_and_cellular",
+    "appTheme": "light_theme",
+    "constraint_behavior": "on_swipe",
+    "default_to_finalized": true,
+    "high_resolution": false,
+    "image_size": "very_small",
+    "instance_sync": true
+  },
+  "extension": {
+    //should we save the forms by-default
+    "save_by_default": false,
+    //should we exit when the form is saved
+    "exit_on_save": true,
+    //should we exit on back
+    "exit_on_back": false,
+    //Configure the UI colors
+    "form_activity_toolbar_background_color": "#00aa9900",
+    "form_activity_toolbar_foreground_color": "#000000",
+    "form_activity_primary_color": "#aa00ff",
+    "form_activity_footer_color": "#aa00ff",
+    "form_activity_navigation_button_background_color": "#0000aaff",
+    "form_activity_navigation_button_foreground_color": "#ffffff",
+    //Give a button to jump to beginning
+    "jump_to_beginning": true,
+    "app_provider": "your.app.package",
+    "app_version": "1"
+  }
+}

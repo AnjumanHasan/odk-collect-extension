@@ -39,6 +39,7 @@ import org.odk.collect.android.widgets.interfaces.ButtonClickListener;
 import org.odk.collect.android.widgets.utilities.WaitingForDataRegistry;
 import org.odk.collect.androidshared.system.CameraUtils;
 import org.odk.collect.selfiecamera.CaptureSelfieActivity;
+import org.odk.collect.settings.keys.ExtensionKeys;
 import org.odk.collect.settings.keys.ProjectKeys;
 
 import java.io.File;
@@ -163,9 +164,8 @@ public class ImageWidget extends BaseImageWidget implements ButtonClickListener 
             // the size. boo.
 
             try {
-                //TODO f
                 Uri uri = new ContentUriProvider().getUriForFile(getContext(),
-                        ProjectKeys.APP_PROVIDER + ".provider",
+                        settingsProvider.getExtensionSettings().getString(ExtensionKeys.APP_PROVIDER) + ".provider",
                         new File(tmpImageFilePath));
                 // if this gets modified, the onActivityResult in
                 // FormEntyActivity will also need to be updated.

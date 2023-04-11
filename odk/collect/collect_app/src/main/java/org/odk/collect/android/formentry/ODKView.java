@@ -187,8 +187,8 @@ public class ODKView extends SwipeHandler.View implements OnLongClickListener, W
                 viewLifecycle,
                 new FileRequesterImpl(intentLauncher, externalAppIntentProvider, formController),
                 new StringRequesterImpl(intentLauncher, externalAppIntentProvider, formController),
-                formController
-        );
+                formController,
+                settingsProvider);
 
         widgets = new ArrayList<>();
         widgetsList = findViewById(R.id.widgets);

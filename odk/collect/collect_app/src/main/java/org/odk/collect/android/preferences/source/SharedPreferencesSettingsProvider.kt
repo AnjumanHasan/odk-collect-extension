@@ -32,6 +32,14 @@ class SharedPreferencesSettingsProvider(private val context: Context) : Settings
         }
     }
 
+    override fun getExtensionSettings(projectId: String?): Settings {
+        val settingsId = getSettingsId(EXTENSION_SETTINGS_NAME, projectId)
+
+        return settings.getOrPut(settingsId) {
+            SharedPreferencesSettings(getSharedPrefs(settingsId), Defaults.extension)
+        }
+    }
+
     override fun clearAll(projectIds: List<String>) {
         projectIds.forEach {
             getUnprotectedSettings(it).clear()
@@ -57,5 +65,6 @@ class SharedPreferencesSettingsProvider(private val context: Context) : Settings
         private const val META_SETTINGS_NAME = "meta"
         private const val GENERAL_SETTINGS_NAME = "general_prefs"
         private const val ADMIN_SETTINGS_NAME = "admin_prefs"
+        private const val EXTENSION_SETTINGS_NAME = "extension_prefs"
     }
 }

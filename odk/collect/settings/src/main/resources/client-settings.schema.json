@@ -210,24 +210,6 @@
         },
         "background_recording": {
           "type": "boolean"
-        },
-        "form_activity_toolbar_background_color": {
-          "type": "string"
-        },
-        "form_activity_toolbar_foreground_color": {
-          "type": "string"
-        },
-        "form_activity_primary_color": {
-          "type": "string"
-        },
-        "form_activity_footer_color": {
-          "type": "string"
-        },
-        "form_activity_navigation_button_background_color": {
-          "type": "string"
-        },
-        "form_activity_navigation_button_foreground_color": {
-          "type": "string"
         }
       }
     },
@@ -333,6 +315,17 @@
         "save_mid": {
           "type": "boolean"
         },
+        "save_as": {
+          "type": "boolean"
+        },
+        "mark_as_finalized": {
+          "type": "boolean"
+        }
+      }
+    },
+    "extension": {
+      "type": "object",
+      "properties": {
         "save_by_default": {
           "type": "boolean"
         },
@@ -342,11 +335,32 @@
         "exit_on_back": {
           "type": "boolean"
         },
-        "save_as": {
-          "type": "boolean"
+        "form_activity_toolbar_background_color": {
+          "type": "string"
         },
-        "mark_as_finalized": {
-          "type": "boolean"
+        "form_activity_toolbar_title_color": {
+          "type": "string"
+        },
+        "form_activity_toolbar_foreground_color": {
+          "type": "string"
+        },
+        "form_activity_primary_color": {
+          "type": "string"
+        },
+        "form_activity_footer_color": {
+          "type": "string"
+        },
+        "form_activity_navigation_button_background_color": {
+          "type": "string"
+        },
+        "form_activity_navigation_button_foreground_color": {
+          "type": "string"
+        },
+        "app_provider": {
+          "type": "string"
+        },
+        "app_version": {
+          "type": "string"
         }
       }
     }

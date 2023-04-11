@@ -28,7 +28,8 @@ We have also built a bunch of additional features on top of ODK collect:
 * **Custom theming on form screens**: This feature allows the module to customize the look and feel
   of the forms by providing a settings file that can be used to modify the form screens according to
   the user's needs.
-* **Callbacks on form submission**: This feature allows the module to receive callbacks when a user
+* **Callbacks on form submission**: This feature allows the module to receive callbacks when a
+  user
   submits a form, which can be used to perform custom actions based on the form submission.
 * **Configuration to submit results to a custom server**: This feature allows the module to send
   form submission results to a custom server, which is useful when integrating with other systems.
@@ -52,10 +53,19 @@ embed ODK directly into them.
 
 ## Integration
 
-### via Module
+### Step 1: Setup ODK Central
 
-1. Download
-   the [ODK module](https://github.com/Samagra-Development/odk-collect-extension/tree/main/odk).
+To integrate ODK into your existing Android application you would also need to
+setup [ODK Central](https://docs.getodk.org/central-intro/) on
+a remote server that would host your ODK forms, manage them and contain submissions from users.
+
+More on ODK Central Installation [here](https://docs.getodk.org/central-install/)
+
+### Step 2: Integrate ODK Extensions
+
+#### via Module
+
+1. Download the [ODK module](/odk).
 2. Copy the directory in your project folder.
 3. Update your app's `settings.gradle` to include the ODK modules.
 
@@ -103,9 +113,40 @@ implementation project(':odk:extension')
 
 5. Build your project
 
-### via Gradle dependency
+#### via Gradle dependency
 
 **Coming soon**
+
+### Step 3: Configure ODK
+
+Configure settings for ODK to work for you. Duplicate
+the [sample-settings.txt](sample/src/main/res/raw/sample-settings.txt) as `settings.json`
+in the same folder with the necessary fields. You can then pass the json file to setup ODK as
+follows:
+
+```kotlin
+ODKInteractor.setupODK(
+    settingsJson = IOUtils.toString(resources.openRawResource(R.raw.settings)),
+    ...)
+```
+
+Note: Don't forget to remove all the comments in sample-settings.txt
+
+All ODK settings can be
+found [here](https://docs.getodk.org/collect-import-export/#list-of-keys-for-all-settings)
+
+All extension configurations are inside the `extension` object.
+
+### Step 4: Add google-services.json
+
+ODK Extension supports downloading all the forms as a zip and extracting them to the correct
+location. In the current form the zip is downloaded only if a new zip is created. This is done by
+saving the hash of the zip on firebase and comparing with the existing zip hash. Hence we need to
+create a project on firebase and add it's google-services.json to our project. Detailed
+steps [here](https://alphatech.technology/Blog-Entry-srk/Google-Services-Json-bek/).
+
+We are working on making this
+optional [here](https://github.com/Samagra-Development/odk-collect-extension/issues/43).
 
 ## Usage
 

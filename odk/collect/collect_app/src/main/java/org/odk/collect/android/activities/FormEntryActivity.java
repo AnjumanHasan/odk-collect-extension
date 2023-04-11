@@ -188,6 +188,7 @@ import org.odk.collect.forms.instances.Instance;
 import org.odk.collect.material.MaterialProgressDialogFragment;
 import org.odk.collect.permissions.PermissionListener;
 import org.odk.collect.permissions.PermissionsChecker;
+import org.odk.collect.settings.keys.ExtensionKeys;
 import org.odk.collect.settings.keys.ProjectKeys;
 import org.odk.collect.settings.keys.ProtectedProjectKeys;
 import org.odk.collect.shared.strings.Md5;
@@ -415,9 +416,9 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         buttonHolder = findViewById(R.id.buttonholder);
 
         // WARNING: ODK Custom Change
-        getWindow().setStatusBarColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_PRIMARY_COLOR)));
+        getWindow().setStatusBarColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_PRIMARY_COLOR)));
         initToolbar();
-        buttonHolder.setBackgroundColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_FOOTER_COLOR)));
+        buttonHolder.setBackgroundColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_FOOTER_COLOR)));
 
         formIndexAnimationHandler = new FormIndexAnimationHandler(this);
         menuDelegate = new FormEntryMenuDelegate(
@@ -436,8 +437,8 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             onSwipeForward();
         });
         // WARNING: ODK Custom changes
-        nextButton.setBackgroundColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_NAVIGATION_BACKGROUND_COLOR)));
-        nextButton.setTextColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)));
+        nextButton.setBackgroundColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_NAVIGATION_BACKGROUND_COLOR)));
+        nextButton.setTextColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)));
         nextButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -445,7 +446,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
                 Drawable nextArrow = nextButton.getCompoundDrawables()[2];
                 if (nextArrow != null) {
                     nextArrow.setColorFilter(
-                            getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)),
+                            getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)),
                             PorterDuff.Mode.SRC_IN
                     );
                 }
@@ -458,8 +459,8 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             onSwipeBackward();
         });
         // WARNING: ODK Custom changes
-        backButton.setBackgroundColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_NAVIGATION_BACKGROUND_COLOR)));
-        backButton.setTextColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)));
+        backButton.setBackgroundColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_NAVIGATION_BACKGROUND_COLOR)));
+        backButton.setTextColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)));
         backButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -467,7 +468,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
                 Drawable backArrow = backButton.getCompoundDrawables()[0];
                 if (backArrow != null) {
                     backArrow.setColorFilter(
-                            getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)),
+                            getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR)),
                             PorterDuff.Mode.SRC_IN
                     );
                 }
@@ -795,12 +796,12 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         // WARNING: ODK Custom Change
-        toolbar.setBackgroundColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_BACKGROUND_COLOR)));
-        toolbar.setTitleTextColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
+        toolbar.setBackgroundColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_BACKGROUND_COLOR)));
+        toolbar.setTitleTextColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
         Drawable drawable = toolbar.getOverflowIcon();
         if (drawable != null) {
             drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable.mutate(), getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
+            DrawableCompat.setTint(drawable.mutate(), getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
             toolbar.setOverflowIcon(drawable);
         }
         setSupportActionBar(toolbar);
@@ -1019,7 +1020,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             Drawable menuIcon = menu.getItem(i).getIcon();
             if (menuIcon != null) {
                 menu.getItem(i).getIcon().setColorFilter(
-                        getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)),
+                        getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)),
                         PorterDuff.Mode.SRC_IN
                 );
             }

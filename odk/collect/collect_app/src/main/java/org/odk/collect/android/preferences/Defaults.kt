@@ -4,6 +4,7 @@ import com.google.android.gms.maps.GoogleMap
 import org.odk.collect.android.R
 import org.odk.collect.android.application.Collect
 import org.odk.collect.android.utilities.QuestionFontSizeUtils
+import org.odk.collect.settings.keys.ExtensionKeys
 import org.odk.collect.settings.keys.ProjectKeys
 import org.odk.collect.settings.keys.ProtectedProjectKeys
 
@@ -44,7 +45,8 @@ object Defaults {
             // server_preferences.xml
             hashMap[ProjectKeys.KEY_PROTOCOL] = ProjectKeys.PROTOCOL_SERVER
             // user_interface_preferences.xml
-            hashMap[ProjectKeys.KEY_APP_THEME] = Collect.getInstance().getString(R.string.app_theme_system)
+            hashMap[ProjectKeys.KEY_APP_THEME] =
+                Collect.getInstance().getString(R.string.app_theme_system)
             hashMap[ProjectKeys.KEY_APP_LANGUAGE] = ""
             hashMap[ProjectKeys.KEY_FONT_SIZE] = QuestionFontSizeUtils.DEFAULT_FONT_SIZE.toString()
             hashMap[ProjectKeys.KEY_NAVIGATION] = ProjectKeys.NAVIGATION_BOTH
@@ -55,13 +57,22 @@ object Defaults {
             hashMap[ProjectKeys.KEY_USGS_MAP_STYLE] = "topographic"
             hashMap[ProjectKeys.KEY_GOOGLE_MAP_STYLE] = GoogleMap.MAP_TYPE_NORMAL.toString()
             hashMap[ProjectKeys.KEY_MAPBOX_MAP_STYLE] = "mapbox://styles/mapbox/streets-v11"
-            hashMap[ProjectKeys.FORM_ACTIVITY_TOOLBAR_BACKGROUND_COLOR] = "#ffffff"
-            hashMap[ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR] = "#000000"
-            hashMap[ProjectKeys.FORM_ACTIVITY_PRIMARY_COLOR] = "#ffffff"
-            hashMap[ProjectKeys.FORM_ACTIVITY_FOOTER_COLOR] = "#ffffff"
-            hashMap[ProjectKeys.FORM_ACTIVITY_NAVIGATION_BACKGROUND_COLOR] = "#00ffffff"
-            hashMap[ProjectKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR] = "#000000"
             return hashMap
+        }
+
+    @JvmStatic
+    val extension: HashMap<String, Any>
+        get() {
+            return hashMapOf(
+                ExtensionKeys.FORM_ACTIVITY_TOOLBAR_BACKGROUND_COLOR to "#ffffff",
+                ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR to "#000000",
+                ExtensionKeys.FORM_ACTIVITY_PRIMARY_COLOR to "#ffffff",
+                ExtensionKeys.FORM_ACTIVITY_FOOTER_COLOR to "#ffffff",
+                ExtensionKeys.FORM_ACTIVITY_NAVIGATION_BACKGROUND_COLOR to "#00ffffff",
+                ExtensionKeys.FORM_ACTIVITY_NAVIGATION_FOREGROUND_COLOR to "#000000",
+                ExtensionKeys.APP_PROVIDER to "org.odk.collect.android",
+                ExtensionKeys.APP_VERSION to "1"
+            )
         }
 
     @JvmStatic

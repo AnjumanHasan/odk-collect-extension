@@ -14,6 +14,7 @@ internal class SettingsImporter(
     private val settingsValidator: SettingsValidator,
     private val generalDefaults: Map<String, Any>,
     private val adminDefaults: Map<String, Any>,
+    private val extensionDefaults: Map<String, Any>,
     private val settingsChangedHandler: SettingsChangeHandler,
     private val projectsRepository: ProjectsRepository,
     private val projectDetailsCreator: ProjectDetailsCreator
@@ -26,9 +27,11 @@ internal class SettingsImporter(
 
         val generalSettings = settingsProvider.getUnprotectedSettings(project.uuid)
         val adminSettings = settingsProvider.getProtectedSettings(project.uuid)
+        val extensionSettings = settingsProvider.getExtensionSettings(project.uuid)
 
         generalSettings.clear()
         adminSettings.clear()
+        extensionSettings.clear()
 
         val jsonObject = JSONObject(json)
 
@@ -38,6 +41,9 @@ internal class SettingsImporter(
         // Import protected settings
         importToPrefs(jsonObject, AppConfigurationKeys.ADMIN, adminSettings)
 
+        // Import the extensions settings
+        importToPrefs(jsonObject, AppConfigurationKeys.EXTENSION, extensionSettings)
+
         // Import project details
         val projectDetails = if (jsonObject.has(AppConfigurationKeys.PROJECT)) {
             jsonObject.getJSONObject(AppConfigurationKeys.PROJECT)
@@ -45,7 +51,9 @@ internal class SettingsImporter(
             JSONObject()
         }
 
-        val connectionIdentifier = if (generalSettings.getString(ProjectKeys.KEY_PROTOCOL).equals(ProjectKeys.PROTOCOL_GOOGLE_SHEETS)) {
+        val connectionIdentifier = if (generalSettings.getString(ProjectKeys.KEY_PROTOCOL)
+                .equals(ProjectKeys.PROTOCOL_GOOGLE_SHEETS)
+        ) {
             generalSettings.getString(ProjectKeys.KEY_SELECTED_GOOGLE_ACCOUNT) ?: ""
         } else {
             generalSettings.getString(ProjectKeys.KEY_SERVER_URL) ?: ""
@@ -61,13 +69,18 @@ internal class SettingsImporter(
 
         loadDefaults(generalSettings, generalDefaults)
         loadDefaults(adminSettings, adminDefaults)
+        loadDefaults(extensionSettings, extensionDefaults)
 
         settingsChangedHandler.onSettingsChanged(project.uuid)
 
         return true
     }
 
-    private fun importToPrefs(mainJsonObject: JSONObject, childJsonObjectName: String, preferences: Settings) {
+    private fun importToPrefs(
+        mainJsonObject: JSONObject,
+        childJsonObjectName: String,
+        preferences: Settings
+    ) {
         val childJsonObject = mainJsonObject.getJSONObject(childJsonObjectName)
 
         childJsonObject.keys().forEach {
@@ -88,7 +101,11 @@ internal class SettingsImporter(
         }
     }
 
-    private fun importProjectDetails(project: Project.Saved, projectJson: JSONObject, connectionIdentifier: String) {
+    private fun importProjectDetails(
+        project: Project.Saved,
+        projectJson: JSONObject,
+        connectionIdentifier: String
+    ) {
         val projectName = if (projectJson.has(AppConfigurationKeys.PROJECT_NAME)) {
             projectJson.getString(AppConfigurationKeys.PROJECT_NAME)
         } else {
@@ -105,7 +122,12 @@ internal class SettingsImporter(
             ""
         }
 
-        val newProject = projectDetailsCreator.createProjectFromDetails(projectName, projectIcon, projectColor, connectionIdentifier)
+        val newProject = projectDetailsCreator.createProjectFromDetails(
+            projectName,
+            projectIcon,
+            projectColor,
+            connectionIdentifier
+        )
 
         projectsRepository.save(
             project.copy(
@@ -136,5 +158,10 @@ internal fun interface SettingsMigrator {
 }
 
 interface ProjectDetailsCreator {
-    fun createProjectFromDetails(name: String = "", icon: String = "", color: String = "", connectionIdentifier: String = ""): Project
+    fun createProjectFromDetails(
+        name: String = "",
+        icon: String = "",
+        color: String = "",
+        connectionIdentifier: String = ""
+    ): Project
 }

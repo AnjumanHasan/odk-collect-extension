@@ -14,5 +14,9 @@ interface SettingsProvider {
 
     fun getProtectedSettings(): Settings = getProtectedSettings(null)
 
+    fun getExtensionSettings(projectId: String?): Settings
+
+    fun getExtensionSettings(): Settings = getExtensionSettings(null)
+
     fun clearAll(projectIds: List<String>)
 }

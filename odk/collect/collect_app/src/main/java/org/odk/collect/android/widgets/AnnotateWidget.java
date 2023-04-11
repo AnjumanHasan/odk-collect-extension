@@ -35,6 +35,8 @@ import org.odk.collect.android.utilities.FileUtils;
 import org.odk.collect.android.utilities.QuestionMediaManager;
 import org.odk.collect.android.widgets.interfaces.ButtonClickListener;
 import org.odk.collect.android.widgets.utilities.WaitingForDataRegistry;
+import org.odk.collect.settings.SettingsProvider;
+import org.odk.collect.settings.keys.ExtensionKeys;
 import org.odk.collect.settings.keys.ProjectKeys;
 
 import java.io.File;
@@ -61,7 +63,12 @@ public class AnnotateWidget extends BaseImageWidget implements ButtonClickListen
     Button chooseButton;
     Button annotateButton;
 
-    public AnnotateWidget(Context context, QuestionDetails prompt, QuestionMediaManager questionMediaManager, WaitingForDataRegistry waitingForDataRegistry, String tmpImageFilePath) {
+    public AnnotateWidget(Context context,
+                          QuestionDetails prompt,
+                          QuestionMediaManager questionMediaManager,
+                          WaitingForDataRegistry waitingForDataRegistry,
+                          String tmpImageFilePath,
+                          SettingsProvider settingsProvider) {
         super(context, prompt, questionMediaManager, waitingForDataRegistry, tmpImageFilePath);
         render();
 
@@ -173,9 +180,8 @@ public class AnnotateWidget extends BaseImageWidget implements ButtonClickListen
         // the size. boo.
 
         try {
-            //TODO pass from apps
             Uri uri = new ContentUriProvider().getUriForFile(getContext(),
-                    ProjectKeys.APP_PROVIDER + ".provider",
+                    settingsProvider.getExtensionSettings().getString(ExtensionKeys.APP_PROVIDER) + ".provider",
                     new File(tmpImageFilePath));
             // if this gets modified, the onActivityResult in
             // FormEntyActivity will also need to be updated.

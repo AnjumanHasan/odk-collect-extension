@@ -52,6 +52,7 @@ import org.odk.collect.android.utilities.FormsRepositoryProvider;
 import org.odk.collect.androidshared.ui.multiclicksafe.MultiClickGuard;
 import org.odk.collect.forms.Form;
 import org.odk.collect.forms.instances.Instance;
+import org.odk.collect.settings.keys.ExtensionKeys;
 import org.odk.collect.settings.keys.ProjectKeys;
 
 import java.util.Arrays;
@@ -85,15 +86,15 @@ public class InstanceChooserList extends InstanceListActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_chooser_list);
         // WARNING: Custom ODK changes
-        getWindow().setStatusBarColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_PRIMARY_COLOR)));
+        getWindow().setStatusBarColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_PRIMARY_COLOR)));
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setBackgroundColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_BACKGROUND_COLOR)));
-            toolbar.setTitleTextColor(getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
+            toolbar.setBackgroundColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_BACKGROUND_COLOR)));
+            toolbar.setTitleTextColor(getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
             Drawable drawable = toolbar.getOverflowIcon();
             if (drawable != null) {
                 drawable = DrawableCompat.wrap(drawable);
-                DrawableCompat.setTint(drawable.mutate(), getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
+                DrawableCompat.setTint(drawable.mutate(), getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)));
                 toolbar.setOverflowIcon(drawable);
             }
         }
@@ -165,7 +166,7 @@ public class InstanceChooserList extends InstanceListActivity implements Adapter
             Drawable menuIcon = menu.getItem(i).getIcon();
             if (menuIcon != null) {
                 menu.getItem(i).getIcon().setColorFilter(
-                        getColor(settingsProvider.getUnprotectedSettings().getString(ProjectKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)),
+                        getColor(settingsProvider.getExtensionSettings().getString(ExtensionKeys.FORM_ACTIVITY_TOOLBAR_FOREGROUND_COLOR)),
                         PorterDuff.Mode.SRC_IN
                 );
             }

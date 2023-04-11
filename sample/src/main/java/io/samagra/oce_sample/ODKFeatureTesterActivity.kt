@@ -68,20 +68,24 @@ class ODKFeatureTesterActivity : AppCompatActivity(), View.OnClickListener {
         ODKProvider.init(application)
         odkInteractor = ODKProvider.getOdkInteractor()
         progressBar.visibility = View.VISIBLE
-        odkInteractor.setupODK(IOUtils.toString(resources.openRawResource(R.raw.settings)), false, object :
-            ODKProcessListener {
-            override fun onProcessComplete() {
-                val currentProjectProvider = DaggerAppDependencyComponent.builder().application(application).build().currentProjectProvider()
-                currentProjectProvider.getCurrentProject().name
-                formsDatabaseInteractor = ODKProvider.getFormsDatabaseInteractor()
-                networkInteractor = ODKProvider.getFormsNetworkInteractor()
-                progressBar.visibility = View.INVISIBLE
-            }
-            override fun onProcessingError(exception: Exception) {
-                exception.printStackTrace()
-                progressBar.visibility = View.INVISIBLE
-            }
-        })
+        odkInteractor.setupODK(
+            settingsJson = IOUtils.toString(resources.openRawResource(R.raw.settings)),
+            lazyDownload = false,
+            listener = object :
+                ODKProcessListener {
+                override fun onProcessComplete() {
+                    val currentProjectProvider = DaggerAppDependencyComponent.builder().application(application).build().currentProjectProvider()
+                    currentProjectProvider.getCurrentProject().name
+                    formsDatabaseInteractor = ODKProvider.getFormsDatabaseInteractor()
+                    networkInteractor = ODKProvider.getFormsNetworkInteractor()
+                    progressBar.visibility = View.INVISIBLE
+                }
+
+                override fun onProcessingError(exception: Exception) {
+                    exception.printStackTrace()
+                    progressBar.visibility = View.INVISIBLE
+                }
+            })
 
         openFormsButton.setOnClickListener(this)
         downloadFormsButton.setOnClickListener(this)

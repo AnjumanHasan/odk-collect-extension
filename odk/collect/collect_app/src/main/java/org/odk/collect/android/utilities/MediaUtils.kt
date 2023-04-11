@@ -20,6 +20,7 @@ import org.odk.collect.android.BuildConfig
 import org.odk.collect.android.R
 import org.odk.collect.androidshared.system.IntentLauncher
 import org.odk.collect.androidshared.ui.ToastUtils
+import org.odk.collect.settings.SettingsProvider
 import org.odk.collect.settings.keys.ProjectKeys
 import timber.log.Timber
 import java.io.File
@@ -36,7 +37,11 @@ import java.io.File
  * @author mitchellsundt@gmail.com
  * @author paulburke
  */
-class MediaUtils(private val intentLauncher: IntentLauncher, private val contentUriProvider: ContentUriProvider) {
+class MediaUtils(
+    private val intentLauncher: IntentLauncher,
+    private val contentUriProvider: ContentUriProvider,
+    private val settingsProvider: SettingsProvider
+) {
     fun deleteMediaFile(imageFile: String) {
         FileUtils.deleteAndReport(File(imageFile))
     }
@@ -51,13 +56,15 @@ class MediaUtils(private val intentLauncher: IntentLauncher, private val content
 
         val contentUri = contentUriProvider.getUriForFile(
             context,
-            //TODO pass from apps
-            ProjectKeys.APP_PROVIDER + ".provider",
+            settingsProvider.getUnprotectedSettings().getString(ProjectKeys.APP_PROVIDER) + ".provider",
             file
         )
 
         if (contentUri == null) {
-            ToastUtils.showLongToast(context, "Can't open file. If you are on a Huawei device, this is expected and will not be fixed.")
+            ToastUtils.showLongToast(
+                context,
+                "Can't open file. If you are on a Huawei device, this is expected and will not be fixed."
+            )
             return
         }
 

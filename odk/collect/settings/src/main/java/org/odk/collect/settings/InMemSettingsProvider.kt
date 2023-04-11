@@ -20,6 +20,10 @@ class InMemSettingsProvider : SettingsProvider {
         return settings.getOrPut("admin:$projectId") { InMemSettings() }
     }
 
+    override fun getExtensionSettings(projectId: String?): Settings {
+        return settings.getOrPut("extension:$projectId") { InMemSettings() }
+    }
+
     override fun clearAll(projectIds: List<String>) {
         settings.values.forEach { it.clear() }
         settings.clear()
